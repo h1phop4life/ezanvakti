@@ -1,0 +1,25 @@
+name: EXE Olustur
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Python Kur
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - name: Gereksinimleri Yukle
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pyinstaller
+    - name: EXE Olarak Derle
+      run: pyinstaller --noconsole --onefile ezan_vakti.py --hidden-import plyer.platforms.win.notification
+    - name: EXE'yi Indirmeye Hazirla
+      uses: actions/upload-artifact@v4
+      with:
+        name: EzanVakti-Programi
+        path: dist/ezan_vakti.exe
